@@ -34,7 +34,6 @@ void ATopDownCameraPawn::SetupPlayerInputComponent(class UInputComponent *inputC
 	inputComponent->BindAction("MouseWheelUp", IE_Pressed, this, &ATopDownCameraPawn::ZoomIn);
 	inputComponent->BindAction("MouseWheelDown", IE_Pressed, this, &ATopDownCameraPawn::ZoomOut);
 
-	// TODO : Create WADS movement
 	inputComponent->BindAxis("MoveForward", this, &ATopDownCameraPawn::MoveCameraForward);
 	inputComponent->BindAxis("MoveRight", this, &ATopDownCameraPawn::MoveCameraRight);
 }
