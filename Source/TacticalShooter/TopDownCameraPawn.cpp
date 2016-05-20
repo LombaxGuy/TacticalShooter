@@ -118,20 +118,32 @@ void ATopDownCameraPawn::Tick(float deltaSeconds)
 
 		if (mousePosition.X < cameraScrollBoundary)
 		{
-			MoveCameraRight(-1.0f);
+			if (GetActorLocation().Y < 4500)
+			{
+				MoveCameraRight(-1.0f);
+			}
 		}
 		else if (mousePosition.X > viewportSize.X - cameraScrollBoundary)
 		{
-			MoveCameraRight(1.0f);
+			if (GetActorLocation().Y > -4500)
+			{
+				MoveCameraRight(1.0f);
+			}
 		}
 
 		if (mousePosition.Y < cameraScrollBoundary)
 		{
-			MoveCameraForward(1.0f);
+			if (GetActorLocation().X > -4800)
+			{
+				MoveCameraForward(1.0f);
+			}
 		}
 		else if (mousePosition.Y > viewportSize.Y - cameraScrollBoundary)
 		{
-			MoveCameraForward(-1.0f);
+			if (GetActorLocation().X < 4700)
+			{
+				MoveCameraForward(-1.0f);
+			}
 		}
 		
 	}
