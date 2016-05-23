@@ -62,7 +62,11 @@ void ATopDownCameraPawn::MoveCameraForward(float direction)
 	FVector deltaMove = value * GetCameraYaw().Vector();
 	FVector newLoc = this->GetActorLocation() + deltaMove;
 
-	SetActorLocation(newLoc);
+	if (GetActorLocation().X > -4800 && direction == 1.0f ||
+		GetActorLocation().X < 4700 && direction == -1.0f)
+	{
+		SetActorLocation(newLoc);
+	}
 }
 
 void ATopDownCameraPawn::MoveCameraRight(float direction)
@@ -72,7 +76,11 @@ void ATopDownCameraPawn::MoveCameraRight(float direction)
 	FVector deltaMove = value * (FRotator(0.0f, 90.0f, 0.0f) + GetCameraYaw()).Vector();
 	FVector newLoc = this->GetActorLocation() + deltaMove;
 
-	SetActorLocation(newLoc);
+	if (GetActorLocation().Y < 4500 && direction == -1.0f ||
+		GetActorLocation().Y > -4500 && direction == 1.0f)
+	{
+		SetActorLocation(newLoc);
+	}
 }
 
 void ATopDownCameraPawn::RepositionCamera()
@@ -115,36 +123,24 @@ void ATopDownCameraPawn::Tick(float deltaSeconds)
 	{
 		//UE_LOG(LogTemp, Log, TEXT("Mouse Position: ( %f, %f)"), mousePosition.X, mousePosition.Y);
 		//UE_LOG(LogTemp, Log, TEXT("Right Relative Position: %f"), viewportSize.X - mousePosition.X);
+		UE_LOG(LogTemp, Log, TEXT("Pawn Position: (%f, %f)"), GetActorLocation().X, GetActorLocation().Y);
 
 		if (mousePosition.X < cameraScrollBoundary)
 		{
-			if (GetActorLocation().Y < 4500)
-			{
-				MoveCameraRight(-1.0f);
-			}
+			MoveCameraRight(-1.0f);
 		}
 		else if (mousePosition.X > viewportSize.X - cameraScrollBoundary)
 		{
-			if (GetActorLocation().Y > -4500)
-			{
-				MoveCameraRight(1.0f);
-			}
+			MoveCameraRight(1.0f);
 		}
 
 		if (mousePosition.Y < cameraScrollBoundary)
 		{
-			if (GetActorLocation().X > -4800)
-			{
-				MoveCameraForward(1.0f);
-			}
+			MoveCameraForward(1.0f);
 		}
 		else if (mousePosition.Y > viewportSize.Y - cameraScrollBoundary)
 		{
-			if (GetActorLocation().X < 4700)
-			{
-				MoveCameraForward(-1.0f);
-			}
+			MoveCameraForward(-1.0f);
 		}
-		
 	}
 }
