@@ -55,7 +55,7 @@ public:
 		void ZoomOut();
 
 	UFUNCTION()
-		FRotator GetCameraYaw();
+		FRotator GetCameraRotationY();
 
 	UFUNCTION()
 		void MoveCameraForward(float direction);
@@ -65,6 +65,9 @@ public:
 
 	UFUNCTION()
 		void RepositionCamera();
+
+	UFUNCTION()
+		void MoveCameraWithMouse();
 
 	UFUNCTION()
 		virtual void Tick(float deltaSeconds) override;

@@ -50,7 +50,7 @@ void ATopDownCameraPawn::ZoomOut()
 	RepositionCamera();
 }
 
-FRotator ATopDownCameraPawn::GetCameraYaw()
+FRotator ATopDownCameraPawn::GetCameraRotationY()
 {
 	return FRotator(0.0f, cameraComponent->ComponentToWorld.Rotator().Yaw, 0.0f);
 }
@@ -59,7 +59,7 @@ void ATopDownCameraPawn::MoveCameraForward(float direction)
 {
 	float value = direction * localDeltaSeconds * cameraMovementSpeed;
 
-	FVector deltaMove = value * GetCameraYaw().Vector();
+	FVector deltaMove = value * GetCameraRotationY().Vector();
 	FVector newLoc = this->GetActorLocation() + deltaMove;
 
 	if (GetActorLocation().X > -4800 && direction == 1.0f ||
@@ -73,7 +73,7 @@ void ATopDownCameraPawn::MoveCameraRight(float direction)
 {
 	float value = direction * localDeltaSeconds * cameraMovementSpeed;
 
-	FVector deltaMove = value * (FRotator(0.0f, 90.0f, 0.0f) + GetCameraYaw()).Vector();
+	FVector deltaMove = value * (FRotator(0.0f, 90.0f, 0.0f) + GetCameraRotationY()).Vector();
 	FVector newLoc = this->GetActorLocation() + deltaMove;
 
 	if (GetActorLocation().Y < 4500 && direction == -1.0f ||
@@ -106,11 +106,8 @@ void ATopDownCameraPawn::RepositionCamera()
 	cameraComponent->SetRelativeRotation(newRotation);
 }
 
-void ATopDownCameraPawn::Tick(float deltaSeconds)
+void ATopDownCameraPawn::MoveCameraWithMouse()
 {
-	Super::Tick(deltaSeconds);
-	localDeltaSeconds = deltaSeconds;
-
 	FVector2D mousePosition;
 	FVector2D viewportSize;
 
@@ -123,7 +120,7 @@ void ATopDownCameraPawn::Tick(float deltaSeconds)
 	{
 		//UE_LOG(LogTemp, Log, TEXT("Mouse Position: ( %f, %f)"), mousePosition.X, mousePosition.Y);
 		//UE_LOG(LogTemp, Log, TEXT("Right Relative Position: %f"), viewportSize.X - mousePosition.X);
-		UE_LOG(LogTemp, Log, TEXT("Pawn Position: (%f, %f)"), GetActorLocation().X, GetActorLocation().Y);
+		//UE_LOG(LogTemp, Log, TEXT("Pawn Position: (%f, %f)"), GetActorLocation().X, GetActorLocation().Y);
 
 		if (mousePosition.X < cameraScrollBoundary)
 		{
@@ -143,4 +140,12 @@ void ATopDownCameraPawn::Tick(float deltaSeconds)
 			MoveCameraForward(-1.0f);
 		}
 	}
+}
+
+void ATopDownCameraPawn::Tick(float deltaSeconds)
+{
+	Super::Tick(deltaSeconds);
+	localDeltaSeconds = deltaSeconds;
+
+	MoveCameraWithMouse();
 }
