@@ -51,7 +51,8 @@ public:
 
 	void CalculateDamage();
 
-	void CalculateDistance(AActor* target);
+	UFUNCTION(BlueprintCallable, Category = AttackFunction)
+		bool CalculateDistance(AActor* target);
 
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

@@ -73,7 +73,7 @@ void UAttackComponent::CalculateDamage()
 
 }
 
-void UAttackComponent::CalculateDistance(AActor* target)
+bool UAttackComponent::CalculateDistance(AActor* target)
 {
 	AActor * Player = GetOwner();
 	targetLocation = target->GetActorLocation();
@@ -112,6 +112,7 @@ void UAttackComponent::CalculateDistance(AActor* target)
 		}
 	}
 
+	return inRange;
 }
 
 AActor* UAttackComponent::Attack(AActor* target)
